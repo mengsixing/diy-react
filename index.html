@@ -1,19 +1,37 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World</title>
-    <script src="./react/React.js"></script>
-    <script src="./react/ReactDom.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="text/babel">
-      ReactDOM.render(
-        <h1>Hello, world!</h1>,
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>diy-react</title>
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <script src="./src/myReact.js"></script>
+  <script src="./src/myReactDom.js"></script>
+  <script src="https://cdn.bootcss.com/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
+  <script type="text/babel">
+    class Test extends React.Component{
+      render(){
+        return (
+          <div>{this.props.title} render</div>
+        );
+      }
+    }
+
+    ReactDOM.render(
+        <div>
+          <h1>Hello, world! <span>123</span> </h1>
+          <Test title="ben" />
+        </div>,
         document.getElementById('root')
       );
-    </script>
-  </body>
+    // ReactDOM.render(<Test title="ben" />,document.getElementById('root'));
+  </script>
+</body>
+
 </html>

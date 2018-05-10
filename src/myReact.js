@@ -3,9 +3,6 @@ function Component(props, context, updater) {
   this.props = props;
   this.context = context;
   this.refs = {};
-  // We initialize the default updater but the real one gets injected by the
-  // renderer.
-  // this.updater = updater || ReactNoopUpdateQueue;
 }
 
 function createElement(type, config, children) {
