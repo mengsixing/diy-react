@@ -177,7 +177,6 @@ var invokeGuardedCallback = function (name, func, context, a, b, c, d, e, f) {
 
       // Synchronously dispatch our fake event. If the user-provided function
       // errors, it will trigger our global error handler.
-      debugger;
       evt.initEvent(evtType, false, false);
       fakeNode.dispatchEvent(evt);
 
@@ -228,7 +227,6 @@ var ReactErrorUtils = {
    * @param {...*} args Arguments for function
    */
   invokeGuardedCallback: function (name, func, context, a, b, c, d, e, f) {
-    debugger;
     invokeGuardedCallback$1.apply(ReactErrorUtils, arguments);
   },
 
@@ -6682,7 +6680,6 @@ function startCommitHostEffectsTimer() {
 }
 
 function stopCommitHostEffectsTimer() {
-  debugger;
   if (enableUserTimingAPI) {
     if (!supportsUserTiming) {
       return;
@@ -7230,6 +7227,8 @@ var ReactFiberClassComponent = function (legacyContext, scheduleWork, computeExp
   }
 
   function adoptClassInstance(workInProgress, instance) {
+    debugger
+    // 注入updater
     instance.updater = updater;
     workInProgress.stateNode = instance;
     // The instance needs access to the fiber so that it can schedule updates
@@ -7240,6 +7239,7 @@ var ReactFiberClassComponent = function (legacyContext, scheduleWork, computeExp
   }
 
   function constructClassInstance(workInProgress, props) {
+    debugger
     var ctor = workInProgress.type;
     var unmaskedContext = getUnmaskedContext(workInProgress);
     var needsContext = isContextConsumer(workInProgress);
@@ -8777,6 +8777,7 @@ var ReactFiberBeginWork = function (config, hostContext, legacyContext, newConte
   }
 
   function updateClassComponent(current, workInProgress, renderExpirationTime) {
+    debugger;
     // Push context providers early to prevent context stack mismatches.
     // During mounting we don't know the child context yet as the instance doesn't exist.
     // We will invalidate the child context in finishClassComponent() right after rendering.
@@ -9421,6 +9422,7 @@ var ReactFiberBeginWork = function (config, hostContext, legacyContext, newConte
   }
 
   function beginWork(current, workInProgress, renderExpirationTime) {
+    debugger;
     if (workInProgress.expirationTime === NoWork || workInProgress.expirationTime > renderExpirationTime) {
       return bailoutOnLowPriority(current, workInProgress);
     }
@@ -10665,7 +10667,6 @@ var ReactFiberCommitWork = function (config, captureError, scheduleWork, compute
           }
         } else {
           if (isContainer) {
-            debugger;
             appendChildToContainer(parent, node.stateNode);
           } else {
             appendChild(parent, node.stateNode);
@@ -11833,7 +11834,6 @@ var ReactFiberScheduler = function (config) {
       switch (primaryEffectTag) {
         case Placement:
           {
-            debugger;
             commitPlacement(nextEffect);
             // Clear the "placement" from effect tag so that we know that this is inserted, before
             // any life-cycles like componentDidMount gets called.
@@ -12006,7 +12006,6 @@ var ReactFiberScheduler = function (config) {
     // ref unmounts.
     nextEffect = firstEffect;
     startCommitHostEffectsTimer();
-    debugger;
     while (nextEffect !== null) {
       var _didError = false;
       var _error = void 0;
@@ -13162,6 +13161,7 @@ var ReactFiberReconciler$1 = function (config) {
       next: null
     };
     insertUpdateIntoFiber(current, update);
+    debugger;
     scheduleWork(current, expirationTime);
 
     return expirationTime;
@@ -17130,6 +17130,7 @@ var ReactDOM = {
     return legacyRenderSubtreeIntoContainer(null, element, container, true, callback);
   },
   render: function (element, container, callback) {
+    debugger;
     return legacyRenderSubtreeIntoContainer(null, element, container, false, callback);
   },
   unstable_renderSubtreeIntoContainer: function (parentComponent, element, containerNode, callback) {

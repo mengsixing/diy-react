@@ -1,23 +1,22 @@
-
-function Component(props, context, updater) {
+function Component(props) {
   this.props = props;
-  this.context = context;
-  this.refs = {};
 }
 
-function createElement(type, config, children) {
+Component.prototype.setState = function (partialState, callback) {
+  // 源码中使用fiber机制来管理渲染
+  Object.assign( this.state, partialState );
+  
+  ReactDOM.render(this.render(),document.getElementById('root'));
+};
+
+function createElement(type, attr, children) {
   var propName = void 0;
   var props = {};
-  var self = null;
-  var source = null;
-
-  if (config != null) {
-    self = config.__self === undefined ? null : config.__self;
-    source = config.__source === undefined ? null : config.__source;
+  if (attr != null) {
     // 将剩余属性添加到新的props对象中
-    for (propName in config) {
-      if (hasOwnProperty.call(config, propName)) {
-        props[propName] = config[propName];
+    for (propName in attr) {
+      if (hasOwnProperty.call(attr, propName) ) {
+        props[propName] = attr[propName];
       }
     }
   }
@@ -30,8 +29,7 @@ function createElement(type, config, children) {
     var childArray = Array(childrenLength);
     for (var i = 0; i < childrenLength; i++) {
       childArray[i] = arguments[i + 2];
-    }
-    {
+    } {
       if (Object.freeze) {
         Object.freeze(childArray);
       }
@@ -48,10 +46,10 @@ function createElement(type, config, children) {
       }
     }
   }
-  return ReactElement(type, self, source, false, props);
+  return ReactElement(type, false, props);
 }
 
-function ReactElement(type, self, source, owner, props) {
+function ReactElement(type, owner, props) {
   var element = {
     // This tag allows us to uniquely identify this as a React Element
     $$typeof: Symbol['for']('react.element'),
@@ -60,7 +58,7 @@ function ReactElement(type, self, source, owner, props) {
     props: props,
     // 记录负责创建此元素的组件。
     _owner: owner
-  };
+  }; 
   {
     if (Object.freeze) {
       Object.freeze(element.props);

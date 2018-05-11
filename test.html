@@ -11,39 +11,38 @@
 
 <body>
   <div id="root"></div>
-  <script src="./src/myReact.js"></script>
-  <script src="./src/myReactDom.js"></script>
+  <script src="./react/React.js"></script>
+  <script src="./react/ReactDom.js"></script>
   <script src="https://cdn.bootcss.com/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
   <script type="text/babel">
     class Test extends React.Component{
-      constructor(props){
-        super(props);
+      constructor(){
+        super();
         this.state={
           num:0,
         };
       }
       testCLick(){
+        window.ccc=this;
         this.setState({
-          num:this.state.num+1
+          num:2
         });
       }
       render(){
         return (
-          <div onClick={this.testCLick.bind(this)}> {this.props.title} render {this.state.num} </div>
+          <div onClick={this.testCLick.bind(this)}>{this.props.title} render {this.state.num}</div>
         );
       }
     }
 
-    // ReactDOM.render(
-    //     <div>
-    //       <h1>Hello, world! <span>123</span> </h1>
-    //       <Test title="ben" />
-    //     </div>,
-    //     document.getElementById('root')
-    //   );
-    ReactDOM.render(<Test title="ben" />,document.getElementById('root'));
-
-    
+    ReactDOM.render(
+        <div>
+          <h1>Hello, world! <span>123</span> </h1>
+          <Test title="ben" />
+        </div>,
+        document.getElementById('root')
+      );
+    // ReactDOM.render(<Test title="ben" />,document.getElementById('root'));
   </script>
 </body>
 

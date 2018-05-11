@@ -452,6 +452,7 @@ var ReactNoopUpdateQueue = {
  * Base class helpers for the updating state of a component.
  */
 function Component(props, context, updater) {
+  debugger;
   this.props = props;
   this.context = context;
   this.refs = emptyObject_1;
@@ -665,7 +666,6 @@ function defineRefPropWarningGetter(props, displayName) {
  * @internal
  */
 var ReactElement = function (type, key, ref, self, source, owner, props) {
-  debugger
   var element = {
     // This tag allows us to uniquely identify this as a React Element
     $$typeof: REACT_ELEMENT_TYPE,
@@ -726,7 +726,6 @@ var ReactElement = function (type, key, ref, self, source, owner, props) {
  * See https://reactjs.org/docs/react-api.html#createelement
  */
 function createElement(type, config, children) {
-  debugger
   var propName = void 0;
 
   // Reserved names are extracted
@@ -1598,7 +1597,6 @@ function validateFragmentProps(fragment) {
 }
 
 function createElementWithValidation(type, props, children) {
-  debugger;
   //验证是否合法type
   var validType = isValidElementType(type);
 
