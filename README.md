@@ -6,9 +6,8 @@
 * [x] ReactDOM.render
 * [x] React.createElement
 * [x] React.Component
-* [ ] Component.shouldComponentUpdate
-* [ ] React.PureComponent
 * [x] Component.prototype.setState
-* [ ] React Lifecycle
+* [x] Component.shouldComponentUpdate
+* [ ] React.PureComponent
 * [ ] Diff
 * [ ] Async SetState
