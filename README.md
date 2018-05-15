@@ -3,9 +3,12 @@
 
 ## todolist
 
-* [ ] ReactDOM.render
-* [ ] React.createElement
-* [ ] React.Component
+* [x] ReactDOM.render
+* [x] React.createElement
+* [x] React.Component
+* [ ] Component.shouldComponentUpdate
 * [ ] React.PureComponent
-* [ ] Component.prototype.setState
+* [x] Component.prototype.setState
 * [ ] React Lifecycle
+* [ ] Diff
+* [ ] Async SetState

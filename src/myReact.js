@@ -3,10 +3,12 @@ function Component(props) {
 }
 
 Component.prototype.setState = function (partialState, callback) {
-  // 源码中使用fiber机制来管理渲染
-  Object.assign( this.state, partialState );
-  
-  ReactDOM.render(this.render(),document.getElementById('root'));
+  this.preProps = {...this.props};
+  this.preState = {...this.state};
+  // 源码中使用fiber机制来管理渲染，这里没做处理
+  Object.assign(this.state, partialState);
+  // base.parentNode 会在初始化组件后绑定到Component对象上
+  renderComponent(this,this.base.parentNode);
 };
 
 function createElement(type, attr, children) {
@@ -15,29 +17,21 @@ function createElement(type, attr, children) {
   if (attr != null) {
     // 将剩余属性添加到新的props对象中
     for (propName in attr) {
-      if (hasOwnProperty.call(attr, propName) ) {
+      if (hasOwnProperty.call(attr, propName)) {
         props[propName] = attr[propName];
       }
     }
   }
 
-  // Children可以不止一个argument，那些被转移到新分配的道具对象。
+  // Children可以不止一个argument，那些被转移到新分配的prop对象。
   var childrenLength = arguments.length - 2;
-  if (childrenLength === 1) {
-    props.children = children;
-  } else if (childrenLength > 1) {
-    var childArray = Array(childrenLength);
-    for (var i = 0; i < childrenLength; i++) {
-      childArray[i] = arguments[i + 2];
-    } {
-      if (Object.freeze) {
-        Object.freeze(childArray);
-      }
-    }
-    props.children = childArray;
+  var childArray = Array(childrenLength);
+  for (var i = 0; i < childrenLength; i++) {
+    childArray[i] = arguments[i + 2];
   }
+  props.children = childArray;
 
-  // 解决默认props
+  // 默认props
   if (type && type.defaultProps) {
     var defaultProps = type.defaultProps;
     for (propName in defaultProps) {
@@ -46,25 +40,16 @@ function createElement(type, attr, children) {
       }
     }
   }
-  return ReactElement(type, false, props);
+  return ReactElement(type, props);
 }
 
-function ReactElement(type, owner, props) {
+function ReactElement(type, props) {
   var element = {
     // This tag allows us to uniquely identify this as a React Element
     $$typeof: Symbol['for']('react.element'),
-    // Built-in properties that belong on the element
     type: type,
     props: props,
-    // 记录负责创建此元素的组件。
-    _owner: owner
-  }; 
-  {
-    if (Object.freeze) {
-      Object.freeze(element.props);
-      Object.freeze(element);
-    }
-  }
+  };
   return element;
 };
 

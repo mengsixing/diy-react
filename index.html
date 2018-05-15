@@ -29,21 +29,50 @@
       }
       render(){
         return (
-          <div onClick={this.testCLick.bind(this)}> {this.props.title} render {this.state.num} </div>
+          <div onClick={this.testCLick.bind(this)}> {this.props.title} clicknumber: {this.state.num} </div>
         );
       }
     }
 
-    // ReactDOM.render(
+
+    class Test2 extends React.Component{
+      constructor(props){
+        super(props);
+        this.state={
+          num:0,
+        };
+      }
+      shouldComponentUpdate(nextProps, nextState) {
+        if(nextState.num>=5){
+          return false;
+        }else{
+          return true;
+        }
+      }
+      componentDidUpdate(preProps, preState){
+        console.log('didupdate',preProps, preState);
+      }
+      testCLick(){
+        this.setState({
+          num:this.state.num+1
+        });
+      }
+      render(){
+        return (
+          <div onClick={this.testCLick.bind(this)}> {this.props.title} clicknumber: {this.state.num} </div>
+        );
+      }
+    }
+    
+    ReactDOM.render(<div><div>123</div><div><Test title="ben" /></div><div><Test2 title="ben2" /></div> </div>,document.getElementById('root'));
+     // ReactDOM.render(
     //     <div>
     //       <h1>Hello, world! <span>123</span> </h1>
     //       <Test title="ben" />
     //     </div>,
     //     document.getElementById('root')
     //   );
-    ReactDOM.render(<Test title="ben" />,document.getElementById('root'));
-
-    
+    // 
   </script>
 </body>
 
