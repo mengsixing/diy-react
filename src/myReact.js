@@ -1,28 +1,30 @@
+/**
+ * React
+ */
+
 function Component(props) {
   this.props = props;
 }
-Component.prototype.setState = function (partialState, callback) {
-  this.preProps = {...this.props};
-  this.preState = {...this.state};
+Component.prototype.setState = function(partialState, callback) {
+  this.preProps = { ...this.props };
+  this.preState = { ...this.state };
   // 源码中使用fiber机制来管理渲染，这里没做处理
   Object.assign(this.state, partialState);
   // base.parentNode 会在初始化组件后绑定到Component对象上
-  renderComponent(this,this.base.parentNode);
+  renderComponent(this, this.base.parentNode);
 };
-
 
 // 中间类，用于继承
 function ComponentDummy() {}
 ComponentDummy.prototype = Component.prototype;
 
-function PureComponent(props){
+function PureComponent(props) {
   this.props = props;
 }
 
-PureComponent.prototype=new ComponentDummy();
+PureComponent.prototype = new ComponentDummy();
 PureComponent.prototype.constructor = PureComponent;
-PureComponent.prototype.isPureReactComponent=true;
-
+PureComponent.prototype.isPureReactComponent = true;
 
 function createElement(type, attr, children) {
   var propName = void 0;
@@ -59,12 +61,12 @@ function createElement(type, attr, children) {
 function ReactElement(type, props) {
   var element = {
     // This tag allows us to uniquely identify this as a React Element
-    $$typeof: Symbol['for']('react.element'),
+    $$typeof: Symbol["for"]("react.element"),
     type: type,
-    props: props,
+    props: props
   };
   return element;
-};
+}
 
 var React = {
   Component,

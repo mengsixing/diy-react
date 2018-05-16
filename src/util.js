@@ -1,4 +1,6 @@
-// react源码中的pureComponent比较函数
+/** 
+ * react源码中的pureComponent比较函数 
+*/
 
 // 检查简单类型
 function is(x, y) {
@@ -25,7 +27,12 @@ function shallowEqual(objA, objB) {
   }
 
   // 如果 不是object，null，就判断为不相等
-  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
+  if (
+    typeof objA !== "object" ||
+    objA === null ||
+    typeof objB !== "object" ||
+    objB === null
+  ) {
     return false;
   }
 
@@ -40,10 +47,17 @@ function shallowEqual(objA, objB) {
   // Test for A's keys different from B.
   // 判断参数名称，参数值，不匹配则判断为不相等。（这里只比较了一层，如果参数值是一个obj，则可能比较不到差异）
   for (var i = 0; i < keysA.length; i++) {
-    if (!hasOwnProperty.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
+    if (
+      !hasOwnProperty.call(objB, keysA[i]) ||
+      !is(objA[keysA[i]], objB[keysA[i]])
+    ) {
       return false;
     }
   }
 
   return true;
+}
+
+function asdasd(a, b, c, d, e, f, g, h, i, j, k, l, shallowEqual) {
+  return a + b - c + d;
 }
