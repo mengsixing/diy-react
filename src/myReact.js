@@ -1,7 +1,6 @@
 function Component(props) {
   this.props = props;
 }
-
 Component.prototype.setState = function (partialState, callback) {
   this.preProps = {...this.props};
   this.preState = {...this.state};
@@ -10,6 +9,20 @@ Component.prototype.setState = function (partialState, callback) {
   // base.parentNode 会在初始化组件后绑定到Component对象上
   renderComponent(this,this.base.parentNode);
 };
+
+
+// 中间类，用于继承
+function ComponentDummy() {}
+ComponentDummy.prototype = Component.prototype;
+
+function PureComponent(props){
+  this.props = props;
+}
+
+PureComponent.prototype=new ComponentDummy();
+PureComponent.prototype.constructor = PureComponent;
+PureComponent.prototype.isPureReactComponent=true;
+
 
 function createElement(type, attr, children) {
   var propName = void 0;
@@ -55,5 +68,6 @@ function ReactElement(type, props) {
 
 var React = {
   Component,
+  PureComponent,
   createElement
 };

@@ -11,6 +11,7 @@
 
 <body>
   <div id="root"></div>
+  <script src="./src/util.js"></script>
   <script src="./src/myReact.js"></script>
   <script src="./src/myReactDom.js"></script>
   <script src="https://cdn.bootcss.com/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
@@ -35,36 +36,39 @@
     }
 
 
-    class Test2 extends React.Component{
+    class Test2 extends React.PureComponent{
       constructor(props){
         super(props);
         this.state={
           num:0,
         };
       }
-      shouldComponentUpdate(nextProps, nextState) {
-        if(nextState.num>=5){
-          return false;
-        }else{
-          return true;
-        }
-      }
+      // shouldComponentUpdate(nextProps, nextState) {
+      //   if(nextState.num>=5){
+      //     return false;
+      //   }else{
+      //     return true;
+      //   }
+      // }
       componentDidUpdate(preProps, preState){
         console.log('didupdate',preProps, preState);
       }
       testCLick(){
         this.setState({
-          num:this.state.num+1
+          num:this.state.num+0
         });
       }
       render(){
         return (
-          <div onClick={this.testCLick.bind(this)}> {this.props.title} clicknumber: {this.state.num} </div>
+          <div>
+            <div onClick={this.testCLick.bind(this)}> {this.props.title} clicknumber: {this.state.num} </div>
+            <div> <Test title="ben" /> </div>
+          </div>
         );
       }
     }
     
-    ReactDOM.render(<div><div>123</div><div><Test title="ben" /></div><div><Test2 title="ben2" /></div> </div>,document.getElementById('root'));
+    ReactDOM.render(<Test2 title="ben2"></Test2>,document.getElementById('root'));
      // ReactDOM.render(
     //     <div>
     //       <h1>Hello, world! <span>123</span> </h1>

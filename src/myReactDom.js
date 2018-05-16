@@ -39,21 +39,34 @@ function _render(element, mountNode) {
 
 }
 
+
+// 渲染react组件
 function renderComponent(component, parentNode) {
   let base;
+  if(component.isPureReactComponent && component.shouldComponentUpdate){
+    throw('如果使用PureReactComponent,不能再使用shouldComponentUpdate声明周期');
+  }
   // 非首次渲染
   if (component.base) {
+    let isUpdate=true;
+    if(component.isPureReactComponent){
+      isUpdate  =  !shallowEqual(component.props, component.preProps) || !shallowEqual(component.state, component.preState);
+    }
     if (component.shouldComponentUpdate) {
-      var isUpdate = component.shouldComponentUpdate(component.props, component.state);
-      if (!isUpdate) {
-        return;
-      }
+      isUpdate = component.shouldComponentUpdate(component.props, component.state);
+    }
+    // 阻值更新
+    if (!isUpdate) {
+      console.log('被阻止了');
+      return;
     }
     const rendered = component.render();
     base = _render(rendered, parentNode);
+    // 这里直接使用了replaceChild，导致组件全部更新，采用dom diff算法可优化
     component.base.parentNode.replaceChild(base, component.base);
     // 声明周期componentDidUpdate
     component.componentDidUpdate && component.componentDidUpdate(component.preProps, component.preState);
+    
   } else {
     // 首次渲染
     const rendered = component.render();

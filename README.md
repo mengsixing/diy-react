@@ -1,5 +1,7 @@
 # diy-react
 
+手工做一个react。
+
 
 ## todolist
 
@@ -8,6 +10,6 @@
 * [x] React.Component
 * [x] Component.prototype.setState
 * [x] Component.shouldComponentUpdate
-* [ ] React.PureComponent
-* [ ] Diff
+* [x] React.PureComponent
+* [ ] Diff算法
 * [ ] Async SetState
