@@ -18,7 +18,12 @@ function _render(element, mountNode) {
       if (hasOwnProperty.call(element.props, propName) && propName !== 'children') {
         //区分属性类型：标签属性，style，className
         if (propName.match(/style/)) {
-          alert('获取到style属性');
+          // 转换成符合要求的style字段值
+          let styleString = JSON.stringify(element.props[propName]);
+          styleString = styleString.replace(/[\{\}\"]/g, '').replace(/\,/g, ';').replace(/([A-Z])/g, function (word) {
+            return '-'+word.toLowerCase();
+          });
+          htmlTag[propName] = styleString;
           continue;
         }
         if (propName.match(/on[A-Z]\w+/)) {
@@ -43,14 +48,14 @@ function _render(element, mountNode) {
 // 渲染react组件
 function renderComponent(component, parentNode) {
   let base;
-  if(component.isPureReactComponent && component.shouldComponentUpdate){
-    throw('如果使用PureReactComponent,不能再使用shouldComponentUpdate声明周期');
+  if (component.isPureReactComponent && component.shouldComponentUpdate) {
+    throw ('如果使用PureReactComponent,不能再使用shouldComponentUpdate声明周期');
   }
   // 非首次渲染
   if (component.base) {
-    let isUpdate=true;
-    if(component.isPureReactComponent){
-      isUpdate  =  !shallowEqual(component.props, component.preProps) || !shallowEqual(component.state, component.preState);
+    let isUpdate = true;
+    if (component.isPureReactComponent) {
+      isUpdate = !shallowEqual(component.props, component.preProps) || !shallowEqual(component.state, component.preState);
     }
     if (component.shouldComponentUpdate) {
       isUpdate = component.shouldComponentUpdate(component.props, component.state);
@@ -66,7 +71,7 @@ function renderComponent(component, parentNode) {
     component.base.parentNode.replaceChild(base, component.base);
     // 声明周期componentDidUpdate
     component.componentDidUpdate && component.componentDidUpdate(component.preProps, component.preState);
-    
+
   } else {
     // 首次渲染
     const rendered = component.render();
