@@ -56,16 +56,20 @@
         });
       }
       render(){
+        const todos = ['finish doc', 'submit pr', 'nag dan to review'];
         return (
           <div>
             <div onClick={this.testCLick.bind(this)}> {this.props.title} clicknumber: {this.state.num} </div>
-            <div style={{color:'red',backgroundColor:'orange'}}> <Test title="ben" /> </div>
+            <div style={{color:'red',backgroundColor:'orange'}}> 555 </div>
+            {
+              this.props.children
+            }
           </div>
         );
       }
     }
     
-    ReactDOM.render(<Test2 title="ben2"></Test2>,document.getElementById('root'));
+    ReactDOM.render(<div>line1<Test title="ben" /><span>123</span></div>,document.getElementById('root'));
      // ReactDOM.render(
     //     <div>
     //       <h1>Hello, world! <span>123</span> </h1>

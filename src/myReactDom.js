@@ -5,7 +5,8 @@
 // 将vdom转换成真实dom
 function _render(element) {
   var mountNode = document.createDocumentFragment();
-  // 根节点为原生html标签
+  
+  // 原生html标签
   if (typeof element.type === "string") {
     var htmlTag = document.createElement(element.type);
     for (var item of element.props.children) {
@@ -14,7 +15,8 @@ function _render(element) {
         htmlTag.appendChild(document.createTextNode(item));
       } else {
         // react 组件
-        htmlTag.appendChild(_render(item, htmlTag));
+        var dom=_render(item, htmlTag);
+        htmlTag.appendChild(dom);
       }
     }
     //绑定属性和事件
@@ -37,10 +39,14 @@ function _render(element) {
           continue;
         }
         if (propName.match(/on[A-Z]\w+/)) {
-          htmlTag.addEventListener(
-            propName.toLowerCase().substr(2),
-            element.props[propName]
-          );
+          // htmlTag.addEventListener(
+          //   propName.toLowerCase().substr(2),
+          //   element.props[propName]
+          // );
+          // htmlTag.onclick=function(){
+          //   alert(1);
+          // }
+          htmlTag[propName.toLowerCase()] = element.props[propName];
           continue;
         }
         htmlTag[propName] = element.props[propName];
@@ -49,10 +55,24 @@ function _render(element) {
     return mountNode.appendChild(htmlTag);
   }
 
-  // 根节点为react组件
+  // 为react组件
   if (typeof element.type === "function") {
     var component = new element.type(element.props);
     return renderComponent(component, mountNode);
+  }
+
+  // 直接是一个文本节点
+  if (typeof element === "string" || typeof element === "number") {
+    return document.createTextNode(element);
+  }
+
+  // 可能是一个children集合
+  if(Array.isArray(element)){
+    var result=document.createDocumentFragment();
+    element.forEach(item=>{
+      result.appendChild(_render(item));
+    });
+    return result;
   }
 }
 
@@ -78,13 +98,13 @@ function renderComponent(component, parentNode) {
     }
     // 阻值更新
     if (!isUpdate) {
-      console.log("被阻止了");
+      console.log("阻止更新");
       return;
     }
     const rendered = component.render();
-    base = _render(rendered, parentNode);
+    base = diff(rendered, component.base);
     // 这里直接使用了replaceChild，导致组件全部更新，采用dom diff算法可优化
-    component.base.parentNode.replaceChild(base, component.base);
+    // component.base.parentNode.replaceChild(base, component.base);
     // 声明周期componentDidUpdate
     component.componentDidUpdate &&
       component.componentDidUpdate(component.preProps, component.preState);
