@@ -4,7 +4,6 @@
  */
 
 function diff(vdom, dom) {
-  debugger
   // 初始化，直接渲染
   if (!dom) {
     return _render(vdom);
@@ -14,6 +13,7 @@ function diff(vdom, dom) {
 
 // 比较节点
 function diffNode(vdom, dom) {
+  console.log('zhexie:', vdom.type);
   // 比较标签名
   if (vdom.type === dom.tagName.toLowerCase()) {
     // 比较标签属性
@@ -49,12 +49,34 @@ function diffAttribute(vdom, dom) {
 
 // 比较子节点
 function diffChildren(vdom, dom) {
+  // 有删除节点
+  // if(dom.length>vdom.length){
+    
+  // }
+
+  // var vdomTypes= vdom.map((item)=>{
+  //   return item.type || item;
+  // })
+  // dom.forEach((domItem,index)=>{
+  //   var domType=domItem.nodeType===1 
+  //   if(domItem.nodeType===1&& !vdomTypes.includes(domItem.tagName.toLowerCase())){
+  //     domItem.parentNode.removeChild(domItem);
+  //   }
+  // });
+  
   for (var i = 0; i < vdom.length; i++) {
+    // 遍历多的vdom或dom
+    // 如果dom多，就删掉多余的dom
+    // 如果vdom多，就增加不够的dom
+    if(dom[i]){
+
+    }else{
+
+    }
+
     // vdom文本节点
     if(typeof vdom[i] ==='string'||typeof vdom[i] ==='number'){
       // 如果原dom存在(替换)，不存在，则删除
-      // if(dom[i]){
-        debugger
         if(dom[i].nodeType === 3){
           if(vdom[i].toString()===dom[i].textContent){
             continue;
@@ -65,11 +87,6 @@ function diffChildren(vdom, dom) {
           var textNode=document.createTextNode(vdom[i]);
           dom[i].parentNode.replaceChild(textNode,dom[i]);
         }
-      // }else{
-      //   // 添加dom
-        
-      // }
-      
     }
     // react 节点
     if (typeof vdom[i] === 'object') {
@@ -77,6 +94,7 @@ function diffChildren(vdom, dom) {
       if(dom[i].nodeType===3){
         var render_dom=_render(vdom[i]);
         dom[i].parentNode.replaceChild(render_dom,dom[i]);
+        vdom[i].base=render_dom;
       }else{
         diffNode(vdom[i],dom[i]);
       }

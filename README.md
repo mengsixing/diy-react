@@ -12,4 +12,8 @@
 * [x] Component.shouldComponentUpdate
 * [x] React.PureComponent
 * [ ] Diff算法
+    * [x] 属性比较
+    * [ ] 节点比较
+    * [ ] 子节点比较
+    * [ ] react组件处理
 * [ ] Async SetState
