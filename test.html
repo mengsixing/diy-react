@@ -20,17 +20,24 @@
         super();
         this.state={
           num:0,
+          isShow:'bbb'
         };
       }
       testCLick(){
         window.ccc=this;
         this.setState({
-          num:this.state.num+2
+          num:this.state.num+2,
+          isShow:'aaa'
         });
       }
       render(){
         return (
-          <div onClick={this.testCLick.bind(this)}>{this.props.title} render {this.state.num}</div>
+          <div>
+            <div onClick={this.testCLick.bind(this)}>{this.props.title} 无关文字 </div>
+            {
+              this.state.isShow=="aaa" && <p style={{color:this.state.color}}>zheshi {this.state.num>0?<h3>{this.state.num}</h3>:this.state.num}  jieshu</p>
+            }
+          </div>
         );
       }
     }

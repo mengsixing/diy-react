@@ -1,6 +1,6 @@
 /** 
  * react源码中的pureComponent比较函数 
-*/
+ */
 
 // 检查简单类型
 function is(x, y) {
@@ -47,8 +47,7 @@ function shallowEqual(objA, objB) {
   // Test for A's keys different from B.
   // 判断参数名称，参数值，不匹配则判断为不相等。（这里只比较了一层，如果参数值是一个obj，则可能比较不到差异）
   for (var i = 0; i < keysA.length; i++) {
-    if (
-      !hasOwnProperty.call(objB, keysA[i]) ||
+    if (!hasOwnProperty.call(objB, keysA[i]) ||
       !is(objA[keysA[i]], objB[keysA[i]])
     ) {
       return false;
@@ -56,4 +55,16 @@ function shallowEqual(objA, objB) {
   }
 
   return true;
+}
+
+// 转换object样式
+function styleObjectToString(obj) {
+  let styleString = JSON.stringify(obj);
+  styleString = styleString
+    .replace(/[\{\}\"]/g, "")
+    .replace(/\,/g, ";")
+    .replace(/([A-Z])/g, function (word) {
+      return "-" + word.toLowerCase();
+    });
+  return styleString;
 }

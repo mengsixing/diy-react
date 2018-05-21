@@ -18,16 +18,25 @@
         super(props);
         this.state={
           num:0,
+          color:'blue',
+          isShow:'aaa'
         };
       }
       testCLick(){
         this.setState({
-          num:this.state.num+1
+          num:this.state.num+1,
+          color:'orange',
+          isShow:'bbb'
         });
       }
       render(){
         return (
-          <div onClick={this.testCLick.bind(this)}> {this.props.title} clicknumber: {this.state.num} </div>
+          <div>
+            <div onClick={this.testCLick.bind(this)}>{this.props.title} 无关文字 </div>
+            {
+              this.state.isShow==='bbb' && <p style={{color:this.state.color}}>zheshi {this.state.num>0?<h3>{this.state.num}</h3>:this.state.num}  jieshu</p>
+            }
+          </div>
         );
       }
     }
@@ -69,7 +78,7 @@
       }
     }
     
-    ReactDOM.render(<div>line1<Test title="ben" /><span>123</span></div>,document.getElementById('root'));
+    ReactDOM.render(<Test title="ben" />,document.getElementById('root'));
      // ReactDOM.render(
     //     <div>
     //       <h1>Hello, world! <span>123</span> </h1>

@@ -5,7 +5,6 @@
 // 将vdom转换成真实dom
 function _render(element) {
   var mountNode = document.createDocumentFragment();
-  
   // 原生html标签
   if (typeof element.type === "string") {
     var htmlTag = document.createElement(element.type);
@@ -15,8 +14,10 @@ function _render(element) {
         htmlTag.appendChild(document.createTextNode(item));
       } else {
         // react 组件
-        var dom=_render(item, htmlTag);
-        htmlTag.appendChild(dom);
+        if(item){
+          var dom=_render(item, htmlTag);
+          htmlTag.appendChild(dom);
+        }
       }
     }
     //绑定属性和事件
@@ -28,13 +29,14 @@ function _render(element) {
         //区分属性类型：标签属性，style，className
         if (propName.match(/style/)) {
           // 转换成符合要求的style字段值
-          let styleString = JSON.stringify(element.props[propName]);
-          styleString = styleString
-            .replace(/[\{\}\"]/g, "")
-            .replace(/\,/g, ";")
-            .replace(/([A-Z])/g, function(word) {
-              return "-" + word.toLowerCase();
-            });
+          let styleString = styleObjectToString(element.props[propName]);
+          // JSON.stringify(element.props[propName]);
+          // styleString = styleString
+          //   .replace(/[\{\}\"]/g, "")
+          //   .replace(/\,/g, ";")
+          //   .replace(/([A-Z])/g, function(word) {
+          //     return "-" + word.toLowerCase();
+          //   });
           htmlTag[propName] = styleString;
           continue;
         }
