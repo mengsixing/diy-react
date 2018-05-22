@@ -5,7 +5,7 @@
 
 ## 相关文章
 
-[step1-组件初始渲染](https://github.com/yhlben/diy-react/blob/master/docs/step1.md?raw=true)
+[step1-组件初始渲染](https://github.com/yhlben/diy-react/blob/master/docs/step1.md)
 
 ## todolist
 
