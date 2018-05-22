@@ -17,7 +17,7 @@ ReactDOM.render(<Test title="ben" />,document.getElementById('root'));
 
 <Test title="ben" /> 这种叫jsx写法,浏览器是不认识的，直接运行会报错，这里使用babel进行转换。
 
-![babel转换][https://github.com/yhlben/diy-react/blob/master/docs/images/babel.png?raw=true]
+![babel转换](https://github.com/yhlben/diy-react/blob/master/docs/images/babel.png?raw=true)
 
 可以看到，经过babel转换后的代码变为 React.createElement(Test, { title: "ben" });
 

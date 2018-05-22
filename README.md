@@ -5,7 +5,7 @@
 
 ## 相关文章
 
-[step1-组件初始渲染](https://github.com/yhlben/diy-react/blob/master/docs/step1.png?raw=true)
+[step1-组件初始渲染](https://github.com/yhlben/diy-react/blob/master/docs/step1.md?raw=true)
 
 ## todolist
 
@@ -19,5 +19,4 @@
     * [x] 属性比较
     * [x] 节点比较
     * [x] 子节点比较
-    * [x] react组件处理
 * [ ] Async SetState
