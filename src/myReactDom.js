@@ -57,18 +57,18 @@ function _render(element) {
     return mountNode.appendChild(htmlTag);
   }
 
-  // 为react组件
+  // react组件
   if (typeof element.type === "function") {
     var component = new element.type(element.props);
     return renderComponent(component, mountNode);
   }
 
-  // 直接是一个文本节点
+  // 文本节点
   if (typeof element === "string" || typeof element === "number") {
     return document.createTextNode(element);
   }
 
-  // 可能是一个children集合
+  // children集合
   if(Array.isArray(element)){
     var result=document.createDocumentFragment();
     element.forEach(item=>{
@@ -103,10 +103,9 @@ function renderComponent(component, parentNode) {
       console.log("阻止更新");
       return;
     }
-    const rendered = component.render();
-    base = diff(rendered, component.base);
-    // 这里直接使用了replaceChild，导致组件全部更新，采用dom diff算法可优化
-    // component.base.parentNode.replaceChild(base, component.base);
+    const renderedVdom = component.render();
+    // diff 算法
+    base = diff(renderedVdom, component.base);
     // 声明周期componentDidUpdate
     component.componentDidUpdate &&
       component.componentDidUpdate(component.preProps, component.preState);
@@ -117,6 +116,7 @@ function renderComponent(component, parentNode) {
     // 声明周期componentDidUpdate
     component.componentDidMount && component.componentDidMount();
   }
+  // 绑定dom到component
   component.base = base;
   return base;
 }

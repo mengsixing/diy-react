@@ -32,7 +32,7 @@
       render(){
         return (
           <div>
-            <div onClick={this.testCLick.bind(this)}>{this.props.title} 无关文字 </div>
+            <div onClick={this.testCLick.bind(this)}> 接收到属性： {this.props.title}  </div>
             {
               this.state.isShow==='bbb' && <p style={{color:this.state.color}}>zheshi {this.state.num>0?<h3>{this.state.num}</h3>:this.state.num}  jieshu</p>
             }
@@ -41,52 +41,7 @@
       }
     }
 
-
-    class Test2 extends React.PureComponent{
-      constructor(props){
-        super(props);
-        this.state={
-          num:0,
-        };
-      }
-      // shouldComponentUpdate(nextProps, nextState) {
-      //   if(nextState.num>=5){
-      //     return false;
-      //   }else{
-      //     return true;
-      //   }
-      // }
-      componentDidUpdate(preProps, preState){
-        console.log('didupdate',preProps, preState);
-      }
-      testCLick(){
-        this.setState({
-          num:this.state.num+0
-        });
-      }
-      render(){
-        const todos = ['finish doc', 'submit pr', 'nag dan to review'];
-        return (
-          <div>
-            <div onClick={this.testCLick.bind(this)}> {this.props.title} clicknumber: {this.state.num} </div>
-            <div style={{color:'red',backgroundColor:'orange'}}> 555 </div>
-            {
-              this.props.children
-            }
-          </div>
-        );
-      }
-    }
-    
     ReactDOM.render(<Test title="ben" />,document.getElementById('root'));
-     // ReactDOM.render(
-    //     <div>
-    //       <h1>Hello, world! <span>123</span> </h1>
-    //       <Test title="ben" />
-    //     </div>,
-    //     document.getElementById('root')
-    //   );
-    // 
   </script>
 </body>
 

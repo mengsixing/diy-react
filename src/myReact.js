@@ -10,7 +10,7 @@ Component.prototype.setState = function(partialState, callback) {
   this.preState = { ...this.state };
   // 源码中使用fiber机制来管理渲染，这里没做处理
   Object.assign(this.state, partialState);
-  // base.parentNode 会在初始化组件后绑定到Component对象上
+  // base是指component对应的真实dom
   renderComponent(this, this.base.parentNode);
 };
 
