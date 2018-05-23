@@ -9,9 +9,10 @@ Component.prototype.setState = function(partialState, callback) {
   this.preProps = { ...this.props };
   this.preState = { ...this.state };
   // 源码中使用fiber机制来管理渲染，这里没做处理
-  Object.assign(this.state, partialState);
+  // Object.assign(this.state, partialState);
   // base是指component对应的真实dom
-  renderComponent(this, this.base.parentNode);
+  // renderComponent(this, this.base.parentNode);
+  enqueueSetState(partialState,this);
 };
 
 // 中间类，用于继承

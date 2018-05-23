@@ -14,8 +14,8 @@ function _render(element) {
         htmlTag.appendChild(document.createTextNode(item));
       } else {
         // react 组件
-        if(item){
-          var dom=_render(item, htmlTag);
+        if (item) {
+          var dom = _render(item, htmlTag);
           htmlTag.appendChild(dom);
         }
       }
@@ -69,9 +69,9 @@ function _render(element) {
   }
 
   // children集合
-  if(Array.isArray(element)){
-    var result=document.createDocumentFragment();
-    element.forEach(item=>{
+  if (Array.isArray(element)) {
+    var result = document.createDocumentFragment();
+    element.forEach(item => {
       result.appendChild(_render(item));
     });
     return result;
@@ -88,8 +88,7 @@ function renderComponent(component, parentNode) {
   if (component.base) {
     let isUpdate = true;
     if (component.isPureReactComponent) {
-      isUpdate =
-        !shallowEqual(component.props, component.preProps) ||
+      isUpdate = !shallowEqual(component.props, component.preProps) ||
         !shallowEqual(component.state, component.preState);
     }
     if (component.shouldComponentUpdate) {

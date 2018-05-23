@@ -7,6 +7,8 @@
 
 [step1-组件初始渲染](https://github.com/yhlben/diy-react/blob/master/docs/step1.md)
 
+[step2-组件生命周期](https://github.com/yhlben/diy-react/blob/master/docs/step2.md)
+
 ## todolist
 
 * [x] ReactDOM.render
