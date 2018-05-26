@@ -29,6 +29,14 @@
           isShow:'bbb'
         });
       }
+      componentDidMount() {
+        this.setState( prevState => {
+            return {
+                num: prevState.num + 10,
+                isShow:'bbb'
+            }
+        } );
+      }
       render(){
         return (
           <div>

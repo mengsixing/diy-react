@@ -25,9 +25,11 @@
       }
       testCLick(){
         window.ccc=this;
-        this.setState({
+        this.setState((state)=>{
+          return {
           num:this.state.num+2,
           isShow:'aaa'
+        }
         });
       }
       render(){

@@ -30,24 +30,10 @@ function _render(element) {
         if (propName.match(/style/)) {
           // 转换成符合要求的style字段值
           let styleString = styleObjectToString(element.props[propName]);
-          // JSON.stringify(element.props[propName]);
-          // styleString = styleString
-          //   .replace(/[\{\}\"]/g, "")
-          //   .replace(/\,/g, ";")
-          //   .replace(/([A-Z])/g, function(word) {
-          //     return "-" + word.toLowerCase();
-          //   });
           htmlTag[propName] = styleString;
           continue;
         }
         if (propName.match(/on[A-Z]\w+/)) {
-          // htmlTag.addEventListener(
-          //   propName.toLowerCase().substr(2),
-          //   element.props[propName]
-          // );
-          // htmlTag.onclick=function(){
-          //   alert(1);
-          // }
           htmlTag[propName.toLowerCase()] = element.props[propName];
           continue;
         }
@@ -113,7 +99,9 @@ function renderComponent(component, parentNode) {
     const rendered = component.render();
     base = _render(rendered, parentNode);
     // 声明周期componentDidUpdate
-    component.componentDidMount && component.componentDidMount();
+    component.componentDidMount && setTimeout(() => {
+      component.componentDidMount()
+    }, 0);
   }
   // 绑定dom到component
   component.base = base;

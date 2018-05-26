@@ -6,7 +6,7 @@
 const setStateQueue = [];
 const renderQueue = [];
 function enqueueSetState(partialState,component){
-  // 1s执行一个批量更新
+  // 等待上一个周期执行完，再执行下一个周期
   if(renderQueue.length==0){
     setTimeout(()=>{
       batchUpdate();
@@ -27,9 +27,16 @@ function enqueueSetState(partialState,component){
 function batchUpdate(){
   // 合并setStateQueue中的值
   setStateQueue.map((item)=>{
+    // setState为一个对象
     if(typeof (item.partialState)==='object'){
       Object.assign( item.component.state,item.partialState);
     }
+    // setState为一个函数
+    if(typeof (item.partialState)==='function'){
+      var newState= item.partialState(item.component.state);
+      Object.assign( item.component.state,newState);
+    }
+
   });
   var item =renderQueue.shift();
   while(item){
