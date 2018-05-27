@@ -19,7 +19,12 @@ function diffNode(vdom, dom) {
     diffAttribute(vdom, dom);
     // 比较children
     diffChildren(vdom.props.children, dom.childNodes);
-  } else {
+  }else if(typeof vdom.type ==='function'){
+    // vdom是react组件
+    var newDom=renderComponent(new vdom.type(vdom.props));
+    dom.parentNode.replaceChild(newDom,dom);
+  }
+   else {
     // 标签不一致，直接替换节点
     return _render(vdom);
   }

@@ -45,8 +45,9 @@ function _render(element) {
 
   // react组件
   if (typeof element.type === "function") {
+    // 直接new一个新的子react组件（应该使用以前的）
     var component = new element.type(element.props);
-    return renderComponent(component, mountNode);
+    return renderComponent(component);
   }
 
   // 文本节点
@@ -65,7 +66,7 @@ function _render(element) {
 }
 
 // 渲染react组件
-function renderComponent(component, parentNode) {
+function renderComponent(component) {
   let base;
   if (component.isPureReactComponent && component.shouldComponentUpdate) {
     throw "如果使用PureReactComponent,不能再使用shouldComponentUpdate声明周期";
@@ -96,9 +97,13 @@ function renderComponent(component, parentNode) {
       component.componentDidUpdate(component.preProps, component.preState);
   } else {
     // 首次渲染
+    // getDerivedStateFromProps生命周期
+    if(component.constructor.getDerivedStateFromProps){
+      component.state=component.constructor.getDerivedStateFromProps(component.props,component.state);
+    }
     const rendered = component.render();
-    base = _render(rendered, parentNode);
-    // 声明周期componentDidUpdate
+    base = _render(rendered);
+    // componentDidMount生命周期
     component.componentDidMount && setTimeout(() => {
       component.componentDidMount()
     }, 0);

@@ -16,11 +16,15 @@
     class Test extends React.Component{
       constructor(props){
         super(props);
-        this.state={
+        this.state = {
           num:0,
           color:'blue',
           isShow:'aaa'
         };
+      }
+      static getDerivedStateFromProps(props, state){
+        console.log('进入getDerivedStateFromProps');
+        return state;
       }
       testCLick(){
         this.setState({
@@ -37,7 +41,7 @@
             }
         } );
       }
-      render(){
+      render() {
         return (
           <div>
             <div onClick={this.testCLick.bind(this)}> 接收到属性： {this.props.title}  </div>
@@ -49,7 +53,27 @@
       }
     }
 
-    ReactDOM.render(<Test title="ben" />,document.getElementById('root'));
+    class TestParent extends React.Component{
+      constructor(props){
+        super(props);
+        this.state={
+          title:'ben'
+        }
+      }
+      changeTitle(){
+        this.setState({
+          title:'ben2'
+        });
+      }
+      render(){
+        return (<div>
+            <button onClick={this.changeTitle.bind(this)}></button>
+            <Test title={this.state.title} />
+          </div>);
+      }
+    }
+
+    ReactDOM.render(<TestParent />,document.getElementById('root'));
   </script>
 </body>
 
