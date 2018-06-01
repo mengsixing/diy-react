@@ -38,7 +38,7 @@ function ReactElement(type, props) {
 
 ## ReactDOM.render
 
-diff是把虚拟dom转换为dom，而render则是讲dom挂载到页面的rootNode节点上。
+diff是把虚拟dom转换为dom，而render则是将dom挂载到页面的rootNode节点上。
 
 ``` js
 var ReactDOM = {

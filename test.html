@@ -16,40 +16,66 @@
   <script src="https://cdn.bootcss.com/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
   <script type="text/babel">
     class Test extends React.Component{
-      constructor(){
-        super();
-        this.state={
+      constructor(props){
+        super(props);
+        this.state = {
           num:0,
-          isShow:'bbb'
+          color:'blue',
+          isShow:'aaa'
         };
       }
+      static getDerivedStateFromProps(props, state){
+        console.log('进入方法2');
+        return state;
+      }
       testCLick(){
-        window.ccc=this;
         this.setState({
-          num:this.state.num+2,
-          isShow:'aaa'
+          num:this.state.num+1,
+          color:'orange',
+          isShow:'bbb'
         });
       }
-      render(){
+      componentDidMount() {
+        this.setState( prevState => {
+            return {
+                num: prevState.num + 10,
+                isShow:'bbb'
+            }
+        } );
+      }
+      render() {
         return (
           <div>
-            <div onClick={this.testCLick.bind(this)}>{this.props.title} 无关文字 </div>
+            <div onClick={this.testCLick.bind(this)}> 接收到属性： {this.props.title}  </div>
             {
-              this.state.isShow=="aaa" && <p style={{color:this.state.color}}>zheshi {this.state.num>0?<h3>{this.state.num}</h3>:this.state.num}  jieshu</p>
+              this.state.isShow==='bbb' && <p style={{color:this.state.color}}>zheshi {this.state.num>0?<h3>{this.state.num}</h3>:this.state.num}  jieshu</p>
             }
           </div>
         );
       }
     }
 
-    ReactDOM.render(
-        <div>
-          <h1>Hello, world! <span>123</span> </h1>
-          <Test title="ben" />
-        </div>,
-        document.getElementById('root')
-      );
-    // ReactDOM.render(<Test title="ben" />,document.getElementById('root'));
+    class TestParent extends React.Component{
+      constructor(props){
+        super(props);
+        this.state={
+          title:'ben'
+        }
+      }
+      changeTitle(){
+        this.setState({
+          title:'ben'
+        });
+      }
+      render(){
+        return (<div>
+            <button onCLick={this.changeTitle.bind(this)}></button>
+            <Test title={this.state.title} />
+          </div>);
+      }
+    }
+
+    ReactDOM.render(<TestParent />,document.getElementById('root'));
   </script>
 </body>
 

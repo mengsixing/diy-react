@@ -4,15 +4,13 @@
 
 ## renderComponent
 
-pureComponent和shouldComponent不能共存
+这里采用renderComponent方法来处理组件渲染。
 
-``` js
-  if (component.isPureReactComponent && component.shouldComponentUpdate) {
-    throw "如果使用PureReactComponent,不能再使用shouldComponentUpdate声明周期";
-  }
-```
+首次渲染，直接创建dom返回。
 
-首次渲染，直接创建dom返回
+触发生命周期：
+
+* componentDidMount
 
 ``` js
   const rendered = component.render();
@@ -24,7 +22,13 @@ pureComponent和shouldComponent不能共存
   return base;
 ```
 
-非首次渲染，则执行更新策略
+非首次渲染，则执行更新策略。
+
+触发生命周期：
+
+* shouldComponentUpdate
+* componentDidUpdate
+
 
 ``` js
   if (component.base) {
@@ -56,5 +60,4 @@ pureComponent和shouldComponent不能共存
     return base;
   }
 ```
-
 

@@ -30,24 +30,10 @@ function _render(element) {
         if (propName.match(/style/)) {
           // 转换成符合要求的style字段值
           let styleString = styleObjectToString(element.props[propName]);
-          // JSON.stringify(element.props[propName]);
-          // styleString = styleString
-          //   .replace(/[\{\}\"]/g, "")
-          //   .replace(/\,/g, ";")
-          //   .replace(/([A-Z])/g, function(word) {
-          //     return "-" + word.toLowerCase();
-          //   });
           htmlTag[propName] = styleString;
           continue;
         }
         if (propName.match(/on[A-Z]\w+/)) {
-          // htmlTag.addEventListener(
-          //   propName.toLowerCase().substr(2),
-          //   element.props[propName]
-          // );
-          // htmlTag.onclick=function(){
-          //   alert(1);
-          // }
           htmlTag[propName.toLowerCase()] = element.props[propName];
           continue;
         }
@@ -59,8 +45,9 @@ function _render(element) {
 
   // react组件
   if (typeof element.type === "function") {
+    // 直接new一个新的子react组件（应该使用以前的）
     var component = new element.type(element.props);
-    return renderComponent(component, mountNode);
+    return renderComponent(component);
   }
 
   // 文本节点
@@ -79,7 +66,7 @@ function _render(element) {
 }
 
 // 渲染react组件
-function renderComponent(component, parentNode) {
+function renderComponent(component) {
   let base;
   if (component.isPureReactComponent && component.shouldComponentUpdate) {
     throw "如果使用PureReactComponent,不能再使用shouldComponentUpdate声明周期";
@@ -110,10 +97,16 @@ function renderComponent(component, parentNode) {
       component.componentDidUpdate(component.preProps, component.preState);
   } else {
     // 首次渲染
+    // getDerivedStateFromProps生命周期
+    if(component.constructor.getDerivedStateFromProps){
+      component.state=component.constructor.getDerivedStateFromProps(component.props,component.state);
+    }
     const rendered = component.render();
-    base = _render(rendered, parentNode);
-    // 声明周期componentDidUpdate
-    component.componentDidMount && component.componentDidMount();
+    base = _render(rendered);
+    // componentDidMount生命周期
+    component.componentDidMount && setTimeout(() => {
+      component.componentDidMount()
+    }, 0);
   }
   // 绑定dom到component
   base._component=component;

@@ -9,6 +9,18 @@
 
 [step2-组件生命周期](https://github.com/yhlben/diy-react/blob/master/docs/step2.md)
 
+[step3-diff算法](https://github.com/yhlben/diy-react/blob/master/docs/step3.md)
+
+[step4-异步setState](https://github.com/yhlben/diy-react/blob/master/docs/step3.md)
+
+
+
+## 疑问
+
+1、在父组件重新渲染的时候，子组件现在会被全部替换，没有做更新操作？
+
+答：diff算法的问题，这里diff和真实dom比较，所以不能判断之前的子组件。
+
 ## todolist
 
 * [x] ReactDOM.render
@@ -21,4 +33,5 @@
     * [x] 属性比较
     * [x] 节点比较
     * [x] 子节点比较
-* [ ] Async SetState
+* [x] Async SetState
+
