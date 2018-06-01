@@ -116,6 +116,7 @@ function renderComponent(component, parentNode) {
     component.componentDidMount && component.componentDidMount();
   }
   // 绑定dom到component
+  base._component=component;
   component.base = base;
   return base;
 }

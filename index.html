@@ -13,6 +13,14 @@
   <div id="root"></div>
   <script src="https://cdn.bootcss.com/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
   <script type="text/babel">
+  class App extends React.Component {
+  componentDidMount(){
+    console.log('重新渲染');
+  }
+    render() {
+        return <h1>Hello,World! {this.props.title}</h1>;
+    }
+}
     class Test extends React.Component{
       constructor(props){
         super(props);
@@ -33,9 +41,10 @@
         return (
           <div>
             <div onClick={this.testCLick.bind(this)}> 接收到属性： {this.props.title}  </div>
-            {
-              this.state.isShow==='bbb' && <p style={{color:this.state.color}}>zheshi {this.state.num>0?<h3>{this.state.num}</h3>:this.state.num}  jieshu</p>
-            }
+            {this.state.num>0?<div style={{color:'red'}}>xianshi</div>:'yincang'}
+            <div>
+              <App title={this.state.num} />
+            </div>
           </div>
         );
       }

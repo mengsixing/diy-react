@@ -19,11 +19,20 @@ function diffNode(vdom, dom) {
     diffAttribute(vdom, dom);
     // 比较children
     diffChildren(vdom.props.children, dom.childNodes);
+  }else if(dom._component.constructor == vdom.type){
+    // 相同组件
+    diffComponent(vdom,dom._component.base);
   } else {
     // 标签不一致，直接替换节点
     return _render(vdom);
   }
   return dom;
+}
+
+function diffComponent(component, dom) {
+  var vdom = new component.type(component.props).render();
+  diffNode(vdom,dom);
+
 }
 
 // 比较属性
@@ -48,49 +57,49 @@ function diffAttribute(vdom, dom) {
 
 // 比较子节点
 function diffChildren(vdom, dom) {
-    // 遍历多的vdom或dom
-    // 如果dom多，就删掉多余的dom
-    // 如果vdom多，就增加不够的dom
-    var maxLen=vdom.length>dom.length?vdom.length:dom.length;
-    for (var i = 0; i < maxLen; i++) {
-      // vdom不存在,删除dom
-      if(!vdom[i]){
-        dom[i].parentNode.removeChild(dom[i]);
-        continue;
-      }
-      // dom不存在,增加dom
-      if(!dom[i]){
-        dom[0].parentNode.appendChild(_render(vdom[i]));
-        continue;
-      }
-      // vdom文本节点
-      if(typeof vdom[i] ==='string'||typeof vdom[i] ==='number'){
-        // 如果原dom存在(替换)，不存在，则删除
-          if(dom[i].nodeType === 3){
-            if(vdom[i].toString()===dom[i].textContent){
-              continue;
-            }else{
-              dom[i].textContent=vdom[i];
-            }
-          }else{
-            var textNode=document.createTextNode(vdom[i]);
-            dom[i].parentNode.replaceChild(textNode,dom[i]);
-          }
-      }
-      // react 节点
-      if (typeof vdom[i] === 'object') {
-        // 如果原节点是text节点，直接替换
-        if(dom[i].nodeType===3){
-          var render_dom=_render(vdom[i]);
-          dom[i].parentNode.replaceChild(render_dom,dom[i]);
-          vdom[i].base=render_dom;
-        }else{
-          diffNode(vdom[i],dom[i]);
+  // 遍历多的vdom或dom
+  // 如果dom多，就删掉多余的dom
+  // 如果vdom多，就增加不够的dom
+  var maxLen = vdom.length > dom.length ? vdom.length : dom.length;
+  for (var i = 0; i < maxLen; i++) {
+    // vdom不存在,删除dom
+    if (!vdom[i]) {
+      dom[i].parentNode.removeChild(dom[i]);
+      continue;
+    }
+    // dom不存在,增加dom
+    if (!dom[i]) {
+      dom[0].parentNode.appendChild(_render(vdom[i]));
+      continue;
+    }
+    // vdom文本节点
+    if (typeof vdom[i] === 'string' || typeof vdom[i] === 'number') {
+      // 如果原dom存在(替换)，不存在，则删除
+      if (dom[i].nodeType === 3) {
+        if (vdom[i].toString() === dom[i].textContent) {
+          continue;
+        } else {
+          dom[i].textContent = vdom[i];
         }
-      }
-      // 如果表达式为空，就删除dom
-      if(typeof vdom[i] === 'boolean' && !vdom[i]){
-        dom[i].parentNode.removeChild(dom[i]);
+      } else {
+        var textNode = document.createTextNode(vdom[i]);
+        dom[i].parentNode.replaceChild(textNode, dom[i]);
       }
     }
+    // react 节点
+    if (typeof vdom[i] === 'object') {
+      // 如果原节点是text节点，直接替换
+      if (dom[i].nodeType === 3) {
+        var render_dom = _render(vdom[i]);
+        dom[i].parentNode.replaceChild(render_dom, dom[i]);
+        vdom[i].base = render_dom;
+      } else {
+        diffNode(vdom[i], dom[i]);
+      }
+    }
+    // 如果表达式为空，就删除dom
+    if (typeof vdom[i] === 'boolean' && !vdom[i]) {
+      dom[i].parentNode.removeChild(dom[i]);
+    }
+  }
 }
