@@ -15,6 +15,14 @@
   <script src="./react/ReactDom.js"></script>
   <script src="https://cdn.bootcss.com/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
   <script type="text/babel">
+    class App extends React.Component {
+    componentDidMount(){
+      console.log('重新渲染');
+    }
+      render() {
+          return <h1>Hello,World! {this.props.title}</h1>;
+      }
+  }
     class Test extends React.Component{
       constructor(props){
         super(props);
@@ -25,31 +33,30 @@
         };
       }
       static getDerivedStateFromProps(props, state){
-        console.log('进入方法2');
+        console.log('进入getDerivedStateFromProps');
         return state;
       }
       testCLick(){
-        this.setState({
-          num:this.state.num+1,
-          color:'orange',
-          isShow:'bbb'
-        });
+        // this.setState({
+        //   num:this.state.num+1,
+        //   color:'orange',
+        //   isShow:'bbb'
+        // });
+        this.force­Update();
       }
       componentDidMount() {
-        this.setState( prevState => {
-            return {
-                num: prevState.num + 10,
-                isShow:'bbb'
-            }
-        } );
+        // this.setState( prevState => {
+        //     return {
+        //         num: prevState.num + 10,
+        //         isShow:'bbb'
+        //     }
+        // } );
       }
       render() {
         return (
           <div>
             <div onClick={this.testCLick.bind(this)}> 接收到属性： {this.props.title}  </div>
-            {
-              this.state.isShow==='bbb' && <p style={{color:this.state.color}}>zheshi {this.state.num>0?<h3>{this.state.num}</h3>:this.state.num}  jieshu</p>
-            }
+            {this.state.num>0?<div style={{color:'red'}}>xianshi {this.state.num} </div>:'yincang'}
           </div>
         );
       }
@@ -64,12 +71,12 @@
       }
       changeTitle(){
         this.setState({
-          title:'ben'
+          title:'ben2'
         });
       }
       render(){
         return (<div>
-            <button onCLick={this.changeTitle.bind(this)}></button>
+            <button onClick={this.changeTitle.bind(this)}></button>
             <Test title={this.state.title} />
           </div>);
       }

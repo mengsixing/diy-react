@@ -46,6 +46,7 @@ function _render(element) {
   // react组件
   if (typeof element.type === "function") {
     // 直接new一个新的子react组件（应该使用以前的）
+    debugger
     var component = new element.type(element.props);
     return renderComponent(component);
   }
@@ -71,8 +72,13 @@ function renderComponent(component) {
   if (component.isPureReactComponent && component.shouldComponentUpdate) {
     throw "如果使用PureReactComponent,不能再使用shouldComponentUpdate声明周期";
   }
+  
   // 非首次渲染
   if (component.base) {
+    // getDerivedStateFromProps生命周期,接收到新属性时，触发。
+    if(component.constructor.getDerivedStateFromProps && !shallowEqual(component.props, component.preProps)){
+      component.state=component.constructor.getDerivedStateFromProps(component.props,component.state);
+    }
     let isUpdate = true;
     if (component.isPureReactComponent) {
       isUpdate = !shallowEqual(component.props, component.preProps) ||
@@ -97,7 +103,7 @@ function renderComponent(component) {
       component.componentDidUpdate(component.preProps, component.preState);
   } else {
     // 首次渲染
-    // getDerivedStateFromProps生命周期
+    // getDerivedStateFromProps生命周期,初始化和接收到新组件时，触发。
     if(component.constructor.getDerivedStateFromProps){
       component.state=component.constructor.getDerivedStateFromProps(component.props,component.state);
     }
