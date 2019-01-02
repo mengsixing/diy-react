@@ -1,5 +1,7 @@
 # diy-react
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/yhlben/diy-react.svg)](https://greenkeeper.io/)
+
 手工做一个react。
 
 
