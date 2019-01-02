@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/yhlben/diy-react#readme",
   "devDependencies": {
-    "prettier": "1.12.1"
+    "prettier": "1.15.3"
   }
 }
